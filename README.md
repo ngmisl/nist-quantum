@@ -13,6 +13,11 @@ This project implements various cryptographic algorithms, including both traditi
   - Dilithium for digital signatures (placeholder implementation)
   - Falcon for digital signatures (placeholder implementation)
 
+## Requirements
+
+- Python 3.12 or higher
+- [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
+
 ## Installation
 
 1. Clone the repository:
@@ -22,20 +27,23 @@ This project implements various cryptographic algorithms, including both traditi
    cd nist
    ```
 
-2. Create and activate a virtual environment:
+2. Create a virtual environment using uv:
 
    ```bash
-   python -m venv .venv
+   uv venv
    source .venv/bin/activate  # On Unix/macOS
    # or
    .venv\Scripts\activate  # On Windows
    ```
 
-3. Install dependencies:
+3. Install the package in editable mode:
 
    ```bash
-   pip install cryptography
+   uv pip install -e .
    ```
+
+The project uses `pyproject.toml` for dependency management. Key dependencies:
+- cryptography>=42.0.0 - For traditional cryptographic operations
 
 ## Usage
 
@@ -123,6 +131,23 @@ The test suite includes:
 - All private keys are handled securely and never exposed
 - Password-based encryption is available for additional security
 - Keys are stored in PEM format with appropriate encryption
+
+## Development
+
+The project uses modern Python packaging tools:
+- `pyproject.toml` for project metadata and dependencies
+- `uv` for fast, reliable dependency management
+- `hatch` as the build backend
+
+To add new dependencies:
+```bash
+uv pip install package-name
+```
+
+To update dependencies:
+```bash
+uv pip install --upgrade package-name
+```
 
 ## Contributing
 
