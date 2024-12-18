@@ -1,3 +1,5 @@
+[![CodeQL Advanced](https://github.com/ngmisl/nist-quantum/actions/workflows/codeql.yml/badge.svg)](https://github.com/ngmisl/nist-quantum/actions/workflows/codeql.yml)
+
 # NIST Cryptography Implementation
 
 This project implements various cryptographic algorithms, including both traditional and post-quantum cryptography methods. It provides a Python-based interface for key generation, encryption, decryption, signing, and verification operations.
