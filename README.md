@@ -16,12 +16,14 @@ This project implements various cryptographic algorithms, including both traditi
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd nist
    ```
 
 2. Create and activate a virtual environment:
+
    ```bash
    python -m venv .venv
    source .venv/bin/activate  # On Unix/macOS
@@ -30,6 +32,7 @@ This project implements various cryptographic algorithms, including both traditi
    ```
 
 3. Install dependencies:
+
    ```bash
    pip install cryptography
    ```
@@ -37,6 +40,7 @@ This project implements various cryptographic algorithms, including both traditi
 ## Usage
 
 ### Key Generation
+
 ```python
 from main import generate_key_pair
 
@@ -51,6 +55,7 @@ private_key, public_key = generate_key_pair("dilithium")
 ```
 
 ### Encryption and Decryption
+
 ```python
 from main import encrypt, decrypt
 
@@ -76,6 +81,7 @@ decrypted_msg = decrypt(
 ```
 
 ### Key Storage
+
 ```python
 from main import save_key_to_file, load_key_from_file
 
@@ -91,11 +97,13 @@ loaded_public_key = load_key_from_file("public_key.pem", is_private=False)
 ## Testing
 
 Run the test suite:
+
 ```bash
 python -m unittest test_crypto.py -v
 ```
 
 The test suite includes:
+
 - Key generation tests for all supported algorithms
 - Encryption/decryption tests with different key pairs
 - Password-based encryption tests
@@ -105,11 +113,13 @@ The test suite includes:
 ## Implementation Notes
 
 ### Post-Quantum Cryptography Status
+
 - The current Dilithium and Falcon implementations are placeholders that simulate the correct key and signature sizes.
 - We plan to integrate a proper quantum-safe library in the future.
 - The placeholder implementation maintains the correct API structure for future replacement.
 
 ### Security Considerations
+
 - All private keys are handled securely and never exposed
 - Password-based encryption is available for additional security
 - Keys are stored in PEM format with appropriate encryption
@@ -124,7 +134,7 @@ The test suite includes:
 
 ## License
 
-[Add your license here]
+MIT
 
 ## Acknowledgments
 
