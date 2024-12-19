@@ -1,0 +1,1011 @@
+# Project: llmstxt
+
+## Project Structure
+This file contains the compressed and processed contents of the project.
+
+### File Types
+The following file types are included:
+- .py
+- .js
+- .html
+- .css
+- .java
+- .c
+- .cpp
+- .h
+- .hpp
+- .sh
+- .txt
+- .md
+- .json
+- .xml
+- .yaml
+- .yml
+- .toml
+- .ini
+
+### Special Files
+<file>README.md</file>
+<metadata>
+path: README.md
+size: 4238 bytes
+</metadata>
+
+[![CodeQL Advanced](https://github.com/ngmisl/nist-quantum/actions/workflows/codeql.yml/badge.svg)](https://github.com/ngmisl/nist-quantum/actions/workflows/codeql.yml)
+
+# NIST Cryptography Implementation
+
+This project implements various cryptographic algorithms, including both traditional and post-quantum cryptography methods. It provides a Python-based interface for key generation, encryption, decryption, signing, and verification operations.
+
+## Features
+
+- **Traditional Cryptography**:
+  - X25519 for key exchange
+  - Ed25519 for digital signatures
+  - AES-GCM for symmetric encryption
+
+- **Post-Quantum Cryptography** (Work in Progress):
+  - Dilithium for digital signatures (placeholder implementation)
+  - Falcon for digital signatures (placeholder implementation)
+
+## Requirements
+
+- Python 3.12 or higher
+- [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+   cd nist
+   ```
+
+2. Create a virtual environment using uv:
+
+   ```bash
+   uv venv
+   source .venv/bin/activate  # On Unix/macOS
+   # or
+   .venv\Scripts\activate  # On Windows
+   ```
+
+3. Install the package in editable mode:
+
+   ```bash
+   uv pip install -e .
+   ```
+
+The project uses `pyproject.toml` for dependency management. Key dependencies:
+- cryptography>=42.0.0 - For traditional cryptographic operations
+
+## Usage
+
+### Key Generation
+
+```python
+from main import generate_key_pair
+
+# Generate X25519 key pair
+private_key, public_key = generate_key_pair("x25519")
+
+# Generate Ed25519 key pair
+private_key, public_key = generate_key_pair("ed25519")
+
+# Generate Dilithium key pair (placeholder)
+private_key, public_key = generate_key_pair("dilithium")
+```
+
+### Encryption and Decryption
+
+```python
+from main import encrypt, decrypt
+
+# Encrypt a message
+message = "Hello, World!"
+encrypted_msg, salt, nonce, tag = encrypt(
+    message, 
+    public_key, 
+    algorithm="x25519",
+    private_key=sender_private_key
+)
+
+# Decrypt the message
+decrypted_msg = decrypt(
+    encrypted_msg,
+    salt,
+    nonce,
+    tag,
+    private_key=recipient_private_key,
+    algorithm="x25519",
+    public_key=sender_public_key
+)
+```
+
+### Key Storage
+
+```python
+from main import save_key_to_file, load_key_from_file
+
+# Save keys
+save_key_to_file(private_key, "private_key.pem", is_private=True)
+save_key_to_file(public_key, "public_key.pem", is_private=False)
+
+# Load keys
+loaded_private_key = load_key_from_file("private_key.pem", is_private=True)
+loaded_public_key = load_key_from_file("public_key.pem", is_private=False)
+```
+
+## Testing
+
+Run the test suite:
+
+```bash
+python -m unittest test_crypto.py -v
+```
+
+The test suite includes:
+
+- Key generation tests for all supported algorithms
+- Encryption/decryption tests with different key pairs
+- Password-based encryption tests
+- Key saving and loading tests
+- Multiple message handling tests
+
+## Implementation Notes
+
+### Post-Quantum Cryptography Status
+
+- The current Dilithium and Falcon implementations are placeholders that simulate the correct key and signature sizes.
+- We plan to integrate a proper quantum-safe library in the future.
+- The placeholder implementation maintains the correct API structure for future replacement.
+
+### Security Considerations
+
+- All private keys are handled securely and never exposed
+- Password-based encryption is available for additional security
+- Keys are stored in PEM format with appropriate encryption
+
+## Development
+
+The project uses modern Python packaging tools:
+- `pyproject.toml` for project metadata and dependencies
+- `uv` for fast, reliable dependency management
+- `hatch` as the build backend
+
+To add new dependencies:
+```bash
+uv pip install package-name
+```
+
+To update dependencies:
+```bash
+uv pip install --upgrade package-name
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+MIT
+
+## Acknowledgments
+
+- Cryptography library: [https://cryptography.io/](https://cryptography.io/)
+- NIST Post-Quantum Cryptography standardization: [https://csrc.nist.gov/projects/post-quantum-cryptography](https://csrc.nist.gov/projects/post-quantum-cryptography)
+
+
+<file>LICENSE</file>
+<metadata>
+path: LICENSE
+size: 1063 bytes
+</metadata>
+
+MIT License
+
+Copyright (c) 2024 ngmisl
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+<file>test_crypto.py</file>
+<metadata>
+path: test_crypto.py
+type: py
+size: 13048 bytes
+</metadata>
+
+<imports>
+import unittest
+import os
+import tempfile
+import shutil
+from main import (
+        3. Loading keys back from files
+        print("- Loading keys from files")
+        3. Loading keys back from files
+        print("- Loading keys from files")
+        3. Loading keys back from files
+        print("- Loading keys from files")
+</imports>
+
+<code lang='py'>
+import unittest
+import os
+import tempfile
+import shutil
+from main import generate_key_pair, save_key_to_file, load_key_from_file, encrypt, decrypt
+
+class TestCrypto(unittest.TestCase):
+    """Test suite for cryptographic operations including X25519 and Ed25519."""
+
+    def setUp(self):
+        """Set up test environment."""
+        self.test_dir = tempfile.mkdtemp()
+
+    def tearDown(self):
+        """Clean up test environment."""
+        shutil.rmtree(self.test_dir)
+
+    def test_x25519_key_generation_and_save_load(self):
+        """Test X25519 key pair generation, saving, and loading.
+
+        This test verifies:
+        1. Key pair generation for X25519
+        2. Saving private and public keys to PEM files
+        3. Loading keys back from files
+        4. Using the loaded keys for encryption/decryption
+        """
+        print('\nTesting X25519 key generation, save, and load operations:')
+        print('- Generating X25519 key pair')
+        private_key, public_key = generate_key_pair('x25519')
+        private_key_path = os.path.join(self.test_dir, 'private_x25519.pem')
+        public_key_path = os.path.join(self.test_dir, 'public_x25519.pem')
+        print('- Saving keys to files:')
+        print(f'  Private key: {private_key_path}')
+        print(f'  Public key: {public_key_path}')
+        save_key_to_file(private_key, private_key_path, is_private=True, algorithm='x25519')
+        save_key_to_file(public_key, public_key_path, is_private=False, algorithm='x25519')
+        print('- Loading keys from files')
+        loaded_private_key = load_key_from_file(private_key_path, is_private=True, algorithm='x25519')
+        loaded_public_key = load_key_from_file(public_key_path, is_private=False, algorithm='x25519')
+        print('- Testing encryption/decryption with loaded keys')
+        message = 'Test message for X25519'
+        encrypted_msg, salt, nonce, tag = encrypt(message, loaded_public_key, 'x25519', private_key=loaded_private_key)
+        decrypted_msg = decrypt(encrypted_msg, salt, nonce, tag, private_key=loaded_private_key, public_key=loaded_public_key, algorithm='x25519')
+        self.assertEqual(message, decrypted_msg)
+        print('✓ Keys successfully generated, saved, loaded, and used for encryption/decryption')
+
+    def test_ed25519_key_generation_and_save_load(self):
+        """Test Ed25519 key pair generation, saving, and loading.
+
+        This test verifies:
+        1. Key pair generation for Ed25519
+        2. Saving private and public keys to PEM files
+        3. Loading keys back from files
+        4. Using the loaded keys with password-based encryption
+        """
+        print('\nTesting Ed25519 key generation, save, and load operations:')
+        print('- Generating Ed25519 key pair')
+        private_key, public_key = generate_key_pair('ed25519')
+        private_key_path = os.path.join(self.test_dir, 'private_ed25519.pem')
+        public_key_path = os.path.join(self.test_dir, 'public_ed25519.pem')
+        print('- Saving keys to files:')
+        print(f'  Private key: {private_key_path}')
+        print(f'  Public key: {public_key_path}')
+        save_key_to_file(private_key, private_key_path, is_private=True, algorithm='ed25519')
+        save_key_to_file(public_key, public_key_path, is_private=False, algorithm='ed25519')
+        print('- Loading keys from files')
+        loaded_private_key = load_key_from_file(private_key_path, is_private=True, algorithm='ed25519')
+        loaded_public_key = load_key_from_file(public_key_path, is_private=False, algorithm='ed25519')
+        print('- Testing password-based encryption/decryption')
+        message = 'Test message for Ed25519'
+        password = 'test_password'
+        encrypted_msg, salt, nonce, tag = encrypt(message, loaded_public_key, 'ed25519', password=password)
+        decrypted_msg = decrypt(encrypted_msg, salt, nonce, tag, private_key=loaded_private_key, algorithm='ed25519', password=password)
+        self.assertEqual(message, decrypted_msg)
+        print('✓ Keys successfully generated, saved, loaded, and used with password-based encryption')
+
+    def test_x25519_encryption_decryption_different_keys(self):
+        """Test X25519 encryption/decryption with sender and recipient keys.
+
+        This test verifies:
+        1. Generation of separate key pairs for sender and recipient
+        2. Key exchange between sender and recipient
+        3. Message encryption by sender
+        4. Message decryption by recipient
+        """
+        print('\nTesting X25519 encryption/decryption with different keys:')
+        print("- Generating sender's X25519 key pair")
+        sender_private, sender_public = generate_key_pair('x25519')
+        print("- Generating recipient's X25519 key pair")
+        recipient_private, recipient_public = generate_key_pair('x25519')
+        message = 'Secret message for X25519 recipient'
+        print(f'- Original message: {message}')
+        print("- Encrypting message using recipient's public key")
+        encrypted_msg, salt, nonce, tag = encrypt(message, recipient_public, 'x25519', private_key=sender_private)
+        print("- Decrypting message using recipient's private key")
+        decrypted_msg = decrypt(encrypted_msg, salt, nonce, tag, private_key=recipient_private, public_key=sender_public, algorithm='x25519')
+        self.assertEqual(message, decrypted_msg)
+        print('✓ Message successfully encrypted and decrypted using different key pairs')
+
+    def test_ed25519_encryption_decryption_different_keys(self):
+        """Test Ed25519 encryption/decryption with password-based encryption.
+
+        This test verifies:
+        1. Generation of separate key pairs
+        2. Password-based encryption
+        3. Password-based decryption
+        4. Message integrity
+        """
+        print('\nTesting Ed25519 encryption/decryption with password:')
+        print("- Generating sender's Ed25519 key pair")
+        sender_private, sender_public = generate_key_pair('ed25519')
+        print("- Generating recipient's Ed25519 key pair")
+        recipient_private, recipient_public = generate_key_pair('ed25519')
+        message = 'Secret message for Ed25519 recipient'
+        password = 'secret_password'
+        print(f'- Original message: {message}')
+        print('- Using password-based encryption')
+        print('- Encrypting message')
+        encrypted_msg, salt, nonce, tag = encrypt(message, recipient_public, 'ed25519', password=password)
+        print('- Decrypting message')
+        decrypted_msg = decrypt(encrypted_msg, salt, nonce, tag, private_key=recipient_private, algorithm='ed25519', password=password)
+        self.assertEqual(message, decrypted_msg)
+        print('✓ Message successfully encrypted and decrypted using password-based encryption')
+
+    def test_dilithium_key_generation_and_save_load(self):
+        """Test Dilithium key pair generation, saving, and loading.
+        
+        Note: This is currently using a placeholder implementation that generates
+        random bytes of the correct size. This will be replaced with actual
+        Dilithium implementation once we have a working quantum-safe library.
+        
+        This test verifies:
+        1. Key pair generation for Dilithium (placeholder)
+        2. Saving private and public keys to files
+        3. Loading keys back from files
+        4. Basic signature verification (placeholder)
+        """
+        print('\nTesting Dilithium key generation, save, and load operations:')
+        print('- Generating Dilithium key pair (placeholder implementation)')
+        private_key, public_key = generate_key_pair('dilithium')
+        private_key_path = os.path.join(self.test_dir, 'private_dilithium.pem')
+        public_key_path = os.path.join(self.test_dir, 'public_dilithium.pem')
+        print('- Saving keys to files:')
+        print(f'  Private key: {private_key_path}')
+        print(f'  Public key: {public_key_path}')
+        save_key_to_file(private_key, private_key_path, is_private=True, algorithm='dilithium')
+        save_key_to_file(public_key, public_key_path, is_private=False, algorithm='dilithium')
+        print('- Loading keys from files')
+        loaded_private_key = load_key_from_file(private_key_path, is_private=True, algorithm='dilithium')
+        loaded_public_key = load_key_from_file(public_key_path, is_private=False, algorithm='dilithium')
+        print('- Testing signing and verification with loaded keys (placeholder)')
+        message = 'Test message for Dilithium'
+        password = 'test_password'
+        print(f'  Original message: {message}')
+        encrypted_msg, salt, nonce, signature = encrypt(message, loaded_public_key, 'dilithium', private_key=loaded_private_key, password=password)
+        decrypted_msg = decrypt(encrypted_msg, salt, nonce, signature, private_key=loaded_private_key, algorithm='dilithium', public_key=loaded_public_key, password=password)
+        self.assertEqual(message, decrypted_msg)
+        print('✓ Keys successfully generated, saved, loaded, and used for signing/verification (placeholder)')
+
+    def test_dilithium_multiple_messages(self):
+        """Test Dilithium with multiple message signing and verification.
+        
+        Note: This is currently using a placeholder implementation. The actual
+        cryptographic operations are simulated with random bytes generation.
+        This will be replaced with proper Dilithium operations when we have
+        the quantum-safe library integrated.
+        
+        This test verifies:
+        1. Single key pair can handle multiple messages
+        2. Each message gets a unique signature (simulated)
+        3. Basic verification works for all messages
+        """
+        print('\nTesting Dilithium with multiple messages (placeholder implementation):')
+        print('- Generating Dilithium key pair')
+        private_key, public_key = generate_key_pair('dilithium')
+        password = 'test_password'
+        messages = ['First test message', 'Second test message', 'Third test message with different length', 'Fourth test message 123!@#']
+        print('- Testing multiple message signing and verification:')
+        for i, message in enumerate(messages, 1):
+            print(f"  Message {i}: '{message}'")
+            encrypted_msg, salt, nonce, signature = encrypt(message, public_key, 'dilithium', private_key=private_key, password=password)
+            decrypted_msg = decrypt(encrypted_msg, salt, nonce, signature, private_key=private_key, algorithm='dilithium', public_key=public_key, password=password)
+            self.assertEqual(message, decrypted_msg)
+            print(f'  ✓ Message {i} successfully processed')
+        print('✓ All messages successfully processed with placeholder implementation')
+if __name__ == '__main__':
+    unittest.main()
+</code>
+
+<file>pyproject.toml</file>
+<metadata>
+path: pyproject.toml
+type: toml
+size: 623 bytes
+</metadata>
+
+<content type='toml'>
+[project]
+name = "nist"
+version = "0.1.0"
+description = "NIST Cryptography Implementation including post-quantum algorithms"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+dependencies = [
+    "cryptography>=42.0.0",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.pytest.ini_options]
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+
+</content>
+
+<file>renovate.json</file>
+<metadata>
+path: renovate.json
+type: json
+size: 114 bytes
+</metadata>
+
+<content type='json'>
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ]
+}
+
+</content>
+
+<file>main.py</file>
+<metadata>
+path: main.py
+type: py
+size: 18423 bytes
+</metadata>
+
+<imports>
+import os
+import sys
+import getpass
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import x25519, ed25519
+    """Loads a key from a file.
+        public_key: Public key loaded from file or passed otherwise.
+            raise ValueError("Private key is required for X25519 key exchange.")
+            raise ValueError("Password is required for the selected algorithm.")
+        # Derive key from password
+            raise ValueError("Private key is required for signing.")
+                    "Both private and public keys are required for X25519 key exchange."
+                raise ValueError("Password is required for the selected algorithm.")
+            # Derive key from password
+                raise ValueError("Public key is required for signature verification.")
+</imports>
+
+<code lang='py'>
+import os
+import sys
+import getpass
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import x25519, ed25519
+DILITHIUM_PRIVATE_KEY_SIZE = 2528
+DILITHIUM_PUBLIC_KEY_SIZE = 1312
+DILITHIUM_SIGNATURE_SIZE = 2420
+
+def generate_key_pair(algorithm):
+    """Generates a key pair based on the specified algorithm.
+
+    Args:
+        algorithm (str): The algorithm to use ('dilithium', 'falcon', 'x25519', 'ed25519').
+
+    Returns:
+        tuple: A tuple containing the private key and public key.
+    """
+    if algorithm == 'dilithium':
+        private_key = os.urandom(DILITHIUM_PRIVATE_KEY_SIZE)
+        public_key = os.urandom(DILITHIUM_PUBLIC_KEY_SIZE)
+    elif algorithm == 'falcon':
+        private_key = os.urandom(1280)
+        public_key = os.urandom(897)
+    elif algorithm == 'x25519':
+        private_key = x25519.X25519PrivateKey.generate()
+        public_key = private_key.public_key()
+    elif algorithm == 'ed25519':
+        private_key = ed25519.Ed25519PrivateKey.generate()
+        public_key = private_key.public_key()
+    else:
+        raise ValueError('Invalid algorithm specified.')
+    return (private_key, public_key)
+
+def save_key_to_file(key, filename, is_private=True, algorithm=None):
+    """Saves a key to a file.
+
+    Args:
+        key: The key to save.
+        filename (str): The name of the file to save the key to.
+        is_private (bool): True if the key is a private key, False otherwise.
+        algorithm (str): Algorithm name for serialization.
+    """
+    if is_private:
+        if isinstance(key, bytes):
+            pem = key
+        else:
+            pem = key.private_bytes(encoding=serialization.Encoding.PEM, format=serialization.PrivateFormat.PKCS8, encryption_algorithm=serialization.NoEncryption())
+    elif isinstance(key, bytes):
+        pem = key
+    else:
+        pem = key.public_bytes(encoding=serialization.Encoding.PEM, format=serialization.PublicFormat.SubjectPublicKeyInfo)
+    with open(filename, 'wb') as f:
+        f.write(pem)
+
+def load_key_from_file(filename, is_private=True, algorithm=None):
+    """Loads a key from a file.
+
+    Args:
+        filename (str): The name of the file to load the key from.
+        is_private (bool): True if the key is a private key, False otherwise.
+        algorithm (str): Algorithm name is needed for loading keys.
+
+    Returns:
+        The loaded key.
+    """
+    with open(filename, 'rb') as f:
+        pem = f.read()
+    if is_private:
+        if algorithm == 'dilithium':
+            key = pem
+        elif algorithm == 'falcon':
+            key = pem
+        elif algorithm == 'x25519':
+            key = serialization.load_pem_private_key(pem, password=None)
+        elif algorithm == 'ed25519':
+            key = serialization.load_pem_private_key(pem, password=None)
+        else:
+            raise ValueError('Invalid algorithm specified or algorithm needed for loading the key.')
+    elif algorithm == 'dilithium':
+        key = pem
+    elif algorithm == 'falcon':
+        key = pem
+    elif algorithm == 'x25519':
+        key = serialization.load_pem_public_key(pem)
+    elif algorithm == 'ed25519':
+        key = serialization.load_pem_public_key(pem)
+    else:
+        raise ValueError('Invalid algorithm specified or algorithm needed for loading the key.')
+    return key
+
+def encrypt(message, public_key, algorithm, private_key=None, password=None):
+    """Encrypts a message using the specified algorithm and a hybrid approach with AES-GCM.
+
+    Args:
+        message (str): The message to encrypt.
+        public_key: Public key loaded from file or passed otherwise.
+        algorithm (str): The algorithm to use ('dilithium', 'falcon', 'x25519', 'ed25519').
+        private_key: Optional private key for signing in the case of 'dilithium' or 'falcon'.
+        password (str): Password for key derivation when not using key exchange.
+
+    Returns:
+        tuple: A tuple containing the encrypted message, salt, nonce, and signature (if applicable).
+    """
+    message_bytes = message.encode('utf-8')
+    salt = os.urandom(16)
+    if algorithm == 'x25519':
+        if not private_key:
+            raise ValueError('Private key is required for X25519 key exchange.')
+        shared_secret = private_key.exchange(public_key)
+        derived_key = HKDF(algorithm=hashes.SHA256(), length=32, salt=salt, info=b'handshake data').derive(shared_secret)
+    else:
+        if not password:
+            raise ValueError('Password is required for the selected algorithm.')
+        derived_key = HKDF(algorithm=hashes.SHA256(), length=32, salt=salt, info=b'password-based key derivation').derive(password.encode('utf-8'))
+    aesgcm = AESGCM(derived_key)
+    nonce = os.urandom(12)
+    encrypted_message = aesgcm.encrypt(nonce, message_bytes, None)
+    signature = None
+    if algorithm in ['dilithium', 'falcon']:
+        if not private_key:
+            raise ValueError('Private key is required for signing.')
+        signature = os.urandom(DILITHIUM_SIGNATURE_SIZE) if algorithm == 'dilithium' else os.urandom(1280)
+    return (encrypted_message, salt, nonce, signature)
+
+def decrypt(encrypted_message, salt, nonce, signature, private_key, algorithm, public_key=None, password=None):
+    """Decrypts a message using the specified algorithm.
+
+    Args:
+        encrypted_message (bytes): The encrypted message.
+        salt (bytes): The salt used for key derivation.
+        nonce (bytes): The nonce used for AES-GCM.
+        signature (bytes): The signature (if applicable).
+        private_key: Private key for decryption and verification.
+        algorithm (str): The algorithm to use ('dilithium', 'falcon', 'x25519', 'ed25519').
+        public_key: Public key for signature verification (if applicable).
+        password (str): Password for key derivation when not using key exchange.
+
+    Returns:
+        str: The decrypted message.
+    """
+    try:
+        if algorithm == 'x25519':
+            if not private_key or not public_key:
+                raise ValueError('Both private and public keys are required for X25519 key exchange.')
+            shared_secret = private_key.exchange(public_key)
+            derived_key = HKDF(algorithm=hashes.SHA256(), length=32, salt=salt, info=b'handshake data').derive(shared_secret)
+        else:
+            if not password:
+                raise ValueError('Password is required for the selected algorithm.')
+            derived_key = HKDF(algorithm=hashes.SHA256(), length=32, salt=salt, info=b'password-based key derivation').derive(password.encode('utf-8'))
+        if algorithm in ['dilithium', 'falcon'] and signature is not None:
+            if not public_key:
+                raise ValueError('Public key is required for signature verification.')
+            is_valid = True
+            if not is_valid:
+                print('Signature verification failed!')
+                return None
+        aesgcm = AESGCM(derived_key)
+        decrypted_message_bytes = aesgcm.decrypt(nonce, encrypted_message, None)
+        return decrypted_message_bytes.decode('utf-8')
+    except Exception as e:
+        print(f'Decryption failed: {str(e)}')
+        return None
+
+def main():
+    """Main function to handle user input and encryption/decryption."""
+    print('Select an option:')
+    print('1. Generate Key Pairs')
+    print('2. Encrypt')
+    print('3. Decrypt')
+    option = input('Option (1/2/3): ').strip()
+    if option == '1':
+        algorithm = input('Choose an algorithm for key generation (dilithium, falcon, x25519, ed25519): ').lower()
+        if algorithm not in ['dilithium', 'falcon', 'x25519', 'ed25519']:
+            print('Invalid algorithm.')
+            return
+        private_key, public_key = generate_key_pair(algorithm)
+        if algorithm in ['x25519', 'ed25519']:
+            save_key_to_file(private_key, f'private_key_{algorithm}.pem', is_private=True, algorithm=algorithm)
+            save_key_to_file(public_key, f'public_key_{algorithm}.pem', is_private=False, algorithm=algorithm)
+            print(f"Key pair generated and saved as 'private_key_{algorithm}.pem' and 'public_key_{algorithm}.pem'")
+        else:
+            save_key_to_file(private_key, f'private_key_{algorithm}.pem', is_private=True, algorithm=algorithm)
+            save_key_to_file(public_key, f'public_key_{algorithm}.pem', is_private=False, algorithm=algorithm)
+            print(f"Key pair generated and saved as 'private_key_{algorithm}.pem' and 'public_key_{algorithm}.pem'")
+    elif option in ['2', '3']:
+        action = 'e' if option == '2' else 'd'
+        if action == 'e':
+            algorithm = input('Choose an algorithm (dilithium, falcon, x25519, ed25519): ').lower()
+            if algorithm not in ['dilithium', 'falcon', 'x25519', 'ed25519']:
+                print('Invalid algorithm.')
+                return
+            if algorithm in ['x25519', 'ed25519']:
+                try:
+                    sender_private_key = load_key_from_file(f'private_key_{algorithm}.pem', is_private=True, algorithm=algorithm)
+                except FileNotFoundError:
+                    print(f"Private key file 'private_key_{algorithm}.pem' not found. Please generate it first.")
+                    return
+                try:
+                    recipient_public_key = load_key_from_file(f'public_key_{algorithm}.pem', is_private=False, algorithm=algorithm)
+                except FileNotFoundError:
+                    print(f"Public key file 'public_key_{algorithm}.pem' not found. Please generate it first.")
+                    return
+            else:
+                try:
+                    sender_private_key = load_key_from_file(f'private_key_{algorithm}.pem', is_private=True, algorithm=algorithm)
+                except FileNotFoundError:
+                    print(f"Private key file 'private_key_{algorithm}.pem' not found. Please generate it first.")
+                    return
+                try:
+                    recipient_public_key = load_key_from_file(f'public_key_{algorithm}.pem', is_private=False, algorithm=algorithm)
+                except FileNotFoundError:
+                    print(f"Public key file 'public_key_{algorithm}.pem' not found. Please generate it first.")
+                    return
+                password = getpass.getpass('Enter a password for encryption: ')
+            message = input('Enter the message to encrypt: ')
+            if algorithm in ['x25519', 'ed25519']:
+                encrypted_message, salt, nonce, signature = encrypt(message, recipient_public_key, algorithm, private_key=sender_private_key)
+            else:
+                encrypted_message, salt, nonce, signature = encrypt(message, recipient_public_key, algorithm, private_key=sender_private_key, password=password)
+            print('\n--- Encrypted Message ---')
+            print('Encrypted message:', encrypted_message.hex())
+            print('Salt:', salt.hex())
+            print('Nonce:', nonce.hex())
+            if signature:
+                print('Signature:', signature.hex())
+        elif action == 'd':
+            algorithm = input('Choose an algorithm (dilithium, falcon, x25519, ed25519): ').lower()
+            if algorithm not in ['dilithium', 'falcon', 'x25519', 'ed25519']:
+                print('Invalid algorithm.')
+                return
+            if algorithm in ['x25519', 'ed25519']:
+                try:
+                    recipient_private_key = load_key_from_file(f'private_key_{algorithm}.pem', is_private=True, algorithm=algorithm)
+                except FileNotFoundError:
+                    print(f"Private key file 'private_key_{algorithm}.pem' not found. Please generate it first.")
+                    return
+                try:
+                    sender_public_key = load_key_from_file(f'public_key_{algorithm}.pem', is_private=False, algorithm=algorithm)
+                except FileNotFoundError:
+                    print(f"Public key file 'public_key_{algorithm}.pem' not found. Please generate it first.")
+                    return
+            else:
+                try:
+                    recipient_private_key = load_key_from_file(f'private_key_{algorithm}.pem', is_private=True, algorithm=algorithm)
+                except FileNotFoundError:
+                    print(f"Private key file 'private_key_{algorithm}.pem' not found. Please generate it first.")
+                    return
+                try:
+                    sender_public_key = load_key_from_file(f'public_key_{algorithm}.pem', is_private=False, algorithm=algorithm)
+                except FileNotFoundError:
+                    print(f"Public key file 'public_key_{algorithm}.pem' not found. Please generate it first.")
+                    return
+                password = getpass.getpass('Enter the password for decryption: ')
+            encrypted_message_hex = input('Enter the encrypted message (in hex): ').strip()
+            salt_hex = input('Enter the salt (in hex): ').strip()
+            nonce_hex = input('Enter the nonce (in hex): ').strip()
+            signature_hex = input('Enter the signature (in hex, if applicable): ').strip() if algorithm in ['dilithium', 'falcon'] else None
+            try:
+                encrypted_message = bytes.fromhex(encrypted_message_hex)
+                salt = bytes.fromhex(salt_hex)
+                nonce = bytes.fromhex(nonce_hex)
+                signature = bytes.fromhex(signature_hex) if signature_hex else None
+            except ValueError:
+                print('Invalid hexadecimal format.')
+                return
+            if algorithm in ['x25519', 'ed25519']:
+                decrypted_message = decrypt(encrypted_message, salt, nonce, signature, private_key=recipient_private_key, algorithm=algorithm, public_key=sender_public_key)
+            else:
+                decrypted_message = decrypt(encrypted_message, salt, nonce, signature, private_key=recipient_private_key, algorithm=algorithm, public_key=sender_public_key, password=password)
+            if decrypted_message:
+                print('\n--- Decrypted Message ---')
+                print('Decrypted message:', decrypted_message)
+            else:
+                print('Failed to decrypt the message.')
+    else:
+        print('Invalid option.')
+if __name__ == '__main__':
+    main()
+</code>
+
+<file>.vscode/settings.json</file>
+<metadata>
+path: .vscode/settings.json
+type: json
+size: 156 bytes
+</metadata>
+
+<content type='json'>
+{
+  "cSpell.words": [
+    "AESGCM",
+    "dilithium",
+    "docstrings",
+    "hkdf",
+    "infile",
+    "keypair",
+    "llms",
+    "PKCS",
+    "urandom"
+  ]
+}
+
+</content>
+
+<file>.github/workflows/codeql.yml</file>
+<metadata>
+path: .github/workflows/codeql.yml
+type: yml
+size: 4301 bytes
+</metadata>
+
+<content type='yml'>
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+# ******** NOTE ********
+# We have attempted to detect the languages in your repository. Please check
+# the `language` matrix defined below to confirm you have the correct set of
+# supported CodeQL languages.
+#
+name: "CodeQL Advanced"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '15 1 * * 2'
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    # Runner size impacts CodeQL analysis time. To learn more, please see:
+    #   - https://gh.io/recommended-hardware-resources-for-running-codeql
+    #   - https://gh.io/supported-runners-and-hardware-resources
+    #   - https://gh.io/using-larger-runners (GitHub.com only)
+    # Consider using larger runners or machines with greater resources for possible analysis time improvements.
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    permissions:
+      # required for all workflows
+      security-events: write
+
+      # required to fetch internal or private CodeQL packs
+      packages: read
+
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: python
+          build-mode: none
+        # CodeQL supports the following values keywords for 'language': 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift'
+        # Use `c-cpp` to analyze code written in C, C++ or both
+        # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
+        # Use 'javascript-typescript' to analyze code written in JavaScript, TypeScript or both
+        # To learn more about changing the languages that are analyzed or customizing the build mode for your analysis,
+        # see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning.
+        # If you are analyzing a compiled language, you can modify the 'build-mode' for that language to customize how
+        # your codebase is analyzed, see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/codeql-code-scanning-for-compiled-languages
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
+        # If you wish to specify custom queries, you can do so here or in a config file.
+        # By default, queries listed here will override any specified in a config file.
+        # Prefix the list here with "+" to use these queries and those in the config file.
+
+        # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+        # queries: security-extended,security-and-quality
+
+    # If the analyze step fails for one of the languages you are analyzing with
+    # "We were unable to automatically build your code", modify the matrix above
+    # to set the build mode to "manual" for that language. Then modify this step
+    # to build your code.
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+    - if: matrix.build-mode == 'manual'
+      shell: bash
+      run: |
+        echo 'If you are using a "manual" build mode for one or more of the' \
+          'languages you are analyzing, replace this with the commands to build' \
+          'your code, for example:'
+        echo '  make bootstrap'
+        echo '  make release'
+        exit 1
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{matrix.language}}"
+
+</content>
+
+<file>.github/workflows/update-llms.yml</file>
+<metadata>
+path: .github/workflows/update-llms.yml
+type: yml
+size: 1403 bytes
+</metadata>
+
+<content type='yml'>
+name: Update llms.txt
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: write
+
+jobs:
+  update-llms:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install llmstxt tool
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install git+https://github.com/ngmisl/llmstxt.git
+
+      - name: Generate llms.txt
+        run: |
+          . .venv/bin/activate
+          # Remove existing llms.txt if it exists
+          rm -f llms.txt
+          # Generate new llms.txt
+          python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Commit and push changes
+        run: |
+          git add llms.txt
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update llms.txt"
+            git push
+          fi
+
+</content>
+
