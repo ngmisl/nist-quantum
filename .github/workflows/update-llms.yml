@@ -32,19 +32,26 @@ jobs:
           curl -LsSf https://astral.sh/uv/install.sh | sh
           echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
-      - name: Create venv and install dependencies
+      - name: Install dependencies
         run: |
           uv venv
           . .venv/bin/activate
           if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
-            uv pip install git+https://github.com/ngmisl/llmstxt.git
+            # For remote repositories, install from GitHub
+            cd /tmp
+            git clone https://github.com/ngmisl/llmstxt.git
+            cd llmstxt
+            uv pip install -e .
+            cd -
           else
+            # For local repository, install in editable mode
             uv pip install -e .
           fi
 
-      - name: Clone target repository
+      - name: Clone and process target repository
         if: github.event_name == 'repository_dispatch'
         run: |
+          . .venv/bin/activate
           git clone ${{ github.event.client_payload.repository }} target_repo
           cd target_repo
           python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
