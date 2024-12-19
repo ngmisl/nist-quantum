@@ -28,41 +28,57 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Install dependencies and setup env
+      - name: Install dependencies
         run: |
           python -m venv .venv
-          . .venv/bin/activate
+          source .venv/bin/activate
           python -m pip install --upgrade pip
-          pip install build hatchling
+          python -m pip install gitignore_parser build hatchling
+
+      - name: Debug Environment Before Install
+        run: |
+          pwd
+          ls -la
+          echo "Python Path Before Install:"
+          source .venv/bin/activate
+          python -c "import sys; print('\n'.join(sys.path))"
+          echo "Pip List Before Install:"
+          source .venv/bin/activate
+          python -m pip list
 
       - name: Install llmstxt
         run: |
-          . .venv/bin/activate
+          source .venv/bin/activate
           if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
             # For remote repositories, use the given repository
             git clone https://github.com/ngmisl/llmstxt.git /tmp/llmstxt
             cd /tmp/llmstxt
-            pip install -e .
-            cd -
+            python -m pip install -e .
           else
             # For local repository, install llmstxt locally
-            pip install -e .
+            python -m pip install -e .
           fi
-          # Verify installation
+          echo "Package location:"
+          python -m pip show llmstxt
+          echo "Python Path After Install:"
+          source .venv/bin/activate
+          python -c "import sys; print('\n'.join(sys.path))"
+          echo "Package Content:"
+          ls -R .venv/lib/python*/site-packages/llmstxt*
           python -c "import llmstxt; print(f'llmstxt version: {llmstxt.__version__}')"
 
       - name: Generate llms.txt for current repository
         if: github.event_name != 'repository_dispatch'
         shell: bash
         run: |
-          . .venv/bin/activate
+          source .venv/bin/activate
           python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
 
       - name: Generate llms.txt for target repository
         if: github.event_name == 'repository_dispatch'
         shell: bash
         run: |
-          . .venv/bin/activate
+          source .venv/bin/activate
           git clone ${{ github.event.client_payload.repository }} target_repo
           cd target_repo
           python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
