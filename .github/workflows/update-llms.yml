@@ -36,20 +36,24 @@ jobs:
         run: |
           uv venv
           . .venv/bin/activate
-          uv pip install git+https://github.com/ngmisl/llmstxt.git
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            uv pip install git+https://github.com/ngmisl/llmstxt.git
+          else
+            uv pip install -e .
+          fi
 
       - name: Clone target repository
         if: github.event_name == 'repository_dispatch'
         run: |
           git clone ${{ github.event.client_payload.repository }} target_repo
           cd target_repo
-          python -m llmstxt
+          python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
 
       - name: Generate llms.txt for current repository
         if: github.event_name != 'repository_dispatch'
         run: |
           . .venv/bin/activate
-          python -m llmstxt
+          python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
 
       - name: Check for changes
         id: changes
