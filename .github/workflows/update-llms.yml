@@ -28,39 +28,41 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Install uv
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-
       - name: Install dependencies and setup env
         run: |
-          uv venv
+          python -m venv .venv
           . .venv/bin/activate
-          uv pip install gitignore_parser
+          python -m pip install --upgrade pip
+          pip install build hatchling
 
-      - name: Prepare llmstxt
+      - name: Install llmstxt
         run: |
+          . .venv/bin/activate
           if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
             # For remote repositories, use the given repository
             git clone https://github.com/ngmisl/llmstxt.git /tmp/llmstxt
             cd /tmp/llmstxt
             pip install -e .
+            cd -
           else
-             # For local repository, install llmstxt locally
+            # For local repository, install llmstxt locally
             pip install -e .
           fi
+          # Verify installation
+          python -c "import llmstxt; print(f'llmstxt version: {llmstxt.__version__}')"
 
       - name: Generate llms.txt for current repository
         if: github.event_name != 'repository_dispatch'
         shell: bash
         run: |
+          . .venv/bin/activate
           python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
 
       - name: Generate llms.txt for target repository
         if: github.event_name == 'repository_dispatch'
         shell: bash
         run: |
+          . .venv/bin/activate
           git clone ${{ github.event.client_payload.repository }} target_repo
           cd target_repo
           python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
@@ -72,7 +74,7 @@ jobs:
           if [ $? -ne 0 ]; then
             echo "changes=true" >> $GITHUB_OUTPUT
           else
-             echo "changes=false" >> $GITHUB_OUTPUT
+            echo "changes=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Create Pull Request
