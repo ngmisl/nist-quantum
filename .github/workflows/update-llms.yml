@@ -17,7 +17,8 @@ jobs:
   update-llms:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -36,25 +37,19 @@ jobs:
         run: |
           uv venv
           . .venv/bin/activate
-          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
-            # For remote repositories, install from GitHub
-            cd /tmp
-            git clone https://github.com/ngmisl/llmstxt.git
-            cd llmstxt
-            uv pip install -e .
-            cd -
-          else
-            # For local repository, install in editable mode
-            uv pip install -e .
-          fi
+          uv pip install gitignore_parser
 
-      - name: Clone and process target repository
-        if: github.event_name == 'repository_dispatch'
+      - name: Prepare llmstxt
         run: |
-          . .venv/bin/activate
-          git clone ${{ github.event.client_payload.repository }} target_repo
-          cd target_repo
-          python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            # For remote repositories, use the given repository
+            git clone https://github.com/ngmisl/llmstxt.git /tmp/llmstxt
+            cd /tmp/llmstxt
+            pip install -e .
+          else
+             # For local repository, install llmstxt locally
+            pip install -e .
+          fi
 
       - name: Generate llms.txt for current repository
         if: github.event_name != 'repository_dispatch'
@@ -62,15 +57,22 @@ jobs:
           . .venv/bin/activate
           python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
 
+      - name: Generate llms.txt for target repository
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          . .venv/bin/activate
+          git clone ${{ github.event.client_payload.repository }} target_repo
+          cd target_repo
+          python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
+
       - name: Check for changes
         id: changes
         run: |
-          if git diff --quiet llms.txt; then
-            echo "No changes to llms.txt"
-            echo "changes=false" >> $GITHUB_OUTPUT
-          else
-            echo "Changes detected in llms.txt"
+          git diff --quiet llms.txt
+          if [ $? -ne 0 ]; then
             echo "changes=true" >> $GITHUB_OUTPUT
+          else
+             echo "changes=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Create Pull Request
