@@ -51,12 +51,12 @@ jobs:
             # For remote repositories, use the given repository
             git clone https://github.com/ngmisl/llmstxt.git /tmp/llmstxt
             cd /tmp/llmstxt
-            pip install -e .
-            cd -
           else
-            # For local repository, install llmstxt locally
-            pip install -e .
+            # For local repository, use current directory
+            cd $GITHUB_WORKSPACE
           fi
+          # Install in editable mode
+          pip install -e .
           # Debug installation
           echo "Package location:"
           pip show llmstxt
@@ -72,7 +72,8 @@ jobs:
         shell: bash
         run: |
           . .venv/bin/activate
-          PYTHONPATH=$PWD python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
+          cd $GITHUB_WORKSPACE
+          python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
 
       - name: Generate llms.txt for target repository
         if: github.event_name == 'repository_dispatch'
@@ -81,7 +82,7 @@ jobs:
           . .venv/bin/activate
           git clone ${{ github.event.client_payload.repository }} target_repo
           cd target_repo
-          PYTHONPATH=$PWD python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
+          python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
 
       - name: Check for changes
         id: changes
