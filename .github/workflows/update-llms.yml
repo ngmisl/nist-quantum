@@ -17,7 +17,7 @@ jobs:
   update-llms:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout target repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -35,53 +35,31 @@ jobs:
           python -m pip install --upgrade pip
           pip install build hatchling
 
-      - name: Debug environment
+      - name: Install llmstxt tool
         run: |
+          . .venv/bin/activate
+          # Clone and install llmstxt
+          git clone https://github.com/ngmisl/llmstxt.git /tmp/llmstxt
+          cd /tmp/llmstxt
+          pip install -e .
+          cd $GITHUB_WORKSPACE
+
+      - name: Debug installation
+        run: |
+          . .venv/bin/activate
+          echo "Current directory:"
           pwd
           ls -la
           echo "Python path:"
           python -c "import sys; print('\n'.join(sys.path))"
-          echo "Pip list:"
+          echo "Installed packages:"
           pip list
+          echo "llmstxt location:"
+          pip show llmstxt || true
 
-      - name: Install llmstxt
+      - name: Generate llms.txt
         run: |
           . .venv/bin/activate
-          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
-            # For remote repositories, use the given repository
-            git clone https://github.com/ngmisl/llmstxt.git /tmp/llmstxt
-            cd /tmp/llmstxt
-          else
-            # For local repository, use current directory
-            cd $GITHUB_WORKSPACE
-          fi
-          # Install in editable mode
-          pip install -e .
-          # Debug installation
-          echo "Package location:"
-          pip show llmstxt
-          echo "Python path after install:"
-          python -c "import sys; print('\n'.join(sys.path))"
-          echo "Package content:"
-          ls -R .venv/lib/python*/site-packages/llmstxt*
-          # Verify installation
-          python -c "import llmstxt; print(f'llmstxt version: {llmstxt.__version__}')"
-
-      - name: Generate llms.txt for current repository
-        if: github.event_name != 'repository_dispatch'
-        shell: bash
-        run: |
-          . .venv/bin/activate
-          cd $GITHUB_WORKSPACE
-          python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
-
-      - name: Generate llms.txt for target repository
-        if: github.event_name == 'repository_dispatch'
-        shell: bash
-        run: |
-          . .venv/bin/activate
-          git clone ${{ github.event.client_payload.repository }} target_repo
-          cd target_repo
           python -c "from llmstxt import generate_llms_txt; generate_llms_txt()"
 
       - name: Check for changes
